@@ -12,6 +12,7 @@ import { useRouter } from 'vue-router'
 import CustomHeader from './CustomHeader.vue'
 import Contact from './Contact.vue'
 import useModal from '../../hooks/useModal'
+
 export default {
   components: { CustomHeader, Contact },
   setup () {

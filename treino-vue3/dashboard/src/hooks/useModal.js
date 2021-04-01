@@ -1,6 +1,6 @@
 import bus from '../utils/bus'
 
-const EVENT_NAME = 'modal:toggle'
+const EVENT_NAME = 'modal:toogle'
 
 export default function useModal () {
   function open (payload = {}) {

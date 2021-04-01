@@ -63,9 +63,7 @@
           'opacity-50': state.isLoading
         }"
         class="px-8 py-3 mt-10 text-2xl font-bold text-white rounded-full bg-brand-main focus:outline-none transition-all duration-150"
-      >
-        <icon v-if="state.isLoading" name="loading" class="animate-spin" />
-        <span v-else>Entrar</span>
+      > Entrar
       </button>
     </form>
   </div>
@@ -73,31 +71,21 @@
 
 <script>
 import { reactive } from 'vue'
-import { useRouter } from 'vue-router'
 import { useField } from 'vee-validate'
-import { useToast } from 'vue-toastification'
 import useModal from '../../hooks/useModal'
-import Icon from '../Icon'
 import { validateEmptyAndLength3, validateEmptyAndEmail } from '../../utils/validators'
-import services from '../../services'
 
 export default {
-  components: { Icon },
   setup () {
-    const router = useRouter()
     const modal = useModal()
-    const toast = useToast()
-
     const {
       value: emailValue,
       errorMessage: emailErrorMessage
     } = useField('email', validateEmptyAndEmail)
-
     const {
       value: passwordValue,
       errorMessage: passwordErrorMessage
     } = useField('password', validateEmptyAndLength3)
-
     const state = reactive({
       hasErrors: false,
       isLoading: false,
@@ -110,42 +98,8 @@ export default {
         errorMessage: passwordErrorMessage
       }
     })
-
-    async function handleSubmit () {
-      try {
-        toast.clear()
-        state.isLoading = true
-        const { data, errors } = await services.auth.login({
-          email: state.email.value,
-          password: state.password.value
-        })
-
-        if (!errors) {
-          window.localStorage.setItem('token', data.token)
-          router.push({ name: 'Feedbacks' })
-          state.isLoading = false
-          modal.close()
-          return
-        }
-
-        if (errors.status === 404) {
-          toast.error('E-mail não encontrado')
-        }
-        if (errors.status === 401) {
-          toast.error('E-mail/senha inválidos')
-        }
-        if (errors.status === 400) {
-          toast.error('Ocorreu um erro ao fazer o login')
-        }
-
-        state.isLoading = false
-      } catch (error) {
-        state.isLoading = false
-        state.hasErrors = !!error
-        toast.error('Ocorreu um erro ao fazer o login')
-      }
+    function handleSubmit () {
     }
-
     return {
       state,
       close: modal.close,
