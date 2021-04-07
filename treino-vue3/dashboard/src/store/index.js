@@ -1,4 +1,4 @@
-import { readonly } from 'vue'
+import { readonly } from '@vue/reactivity'
 import UserModule from './user'
 import GlobalModule from './global'
 
