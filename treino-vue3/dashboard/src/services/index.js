@@ -3,22 +3,25 @@ import AuthService from './auth'
 import router from '../router'
 import UsersServices from './users'
 import { setGlobalLoading } from '../store/global'
+import FeedbacksService from './feedbacks'
 
 const API_ENVS = {
-  production: '',
-  development: '',
+  production: 'https://backend-treinamento-vue3.vercel.app',
+  development: 'http://localhost:3000',
   local: 'http://localhost:3000'
 }
 const httpClient = axios.create({
-  baseURL: API_ENVS.local
+  baseURL: API_ENVS[process.env.NODE_ENV] || API_ENVS.local
 })
 
 httpClient.interceptors.request.use(config => {
   setGlobalLoading(true)
   const token = window.localStorage.getItem('token')
+
   if (token) {
     config.headers.common.Authorization = `Bearer ${token}`
   }
+
   return config
 })
 
@@ -40,5 +43,6 @@ httpClient.interceptors.response.use((response) => {
 })
 export default {
   auth: AuthService(httpClient),
-  users: UsersServices(httpClient)
+  users: UsersServices(httpClient),
+  feedbacks: FeedbacksService(httpClient)
 }

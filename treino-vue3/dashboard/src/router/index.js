@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 const Home = () => import('../views/Home/index.vue')
 const Feedbacks = () => import('../views/Feedbacks/index.vue')
 const Credencials = () => import('../views/Credencials/index.vue')
-const Testando = () => import('../views/Testando/testando.vue')
+
 export const routes = [
   {
     path: '/',
@@ -20,21 +20,13 @@ export const routes = [
   },
   {
     path: '/credencials',
+    redirect: '/credencials',
     name: 'Credencials',
     component: Credencials,
     meta: {
       hasAuth: true
     }
   },
-  {
-    path: '/testando',
-    name: 'Testando',
-    component: Testando,
-    meta: {
-      hashAuth: true
-    }
-  },
-  //  Caso a rota nao exista ele volta para o Home.
   {
     path: '/:pathMatch(.*)*',
     redirect: { name: 'Home' }
